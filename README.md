@@ -18,9 +18,14 @@ plugin, err := bass.PluginLoad("libbass_aac.so")
 cfg := bass.PlayerConf{
 		Device: -1,
 		Freq:   44100,
-		Flags:  0, Volume: 50.5,
+		Flags:  0,
+		Volume: 50.5,
 		Source: "http://online-hitfm.tavrmedia.ua/HitFM_Live",
 	}
+
+// or
+cfg = bass.PlayerConf{}
+cfg.Source = "http://music.myradio.ua:8000/main_stream_rock_news128.mp3"
 	
 player, err := bass.NewPlayer(cfg)
 	
@@ -34,10 +39,10 @@ if err != nil {
 	fmt.Println("Volume:", player.GetVol())
 }
 
+r := regexp.MustCompile(`(?isU)StreamTitle='(.*)';`)
 for {
-	r := regexp.MustCompile(`(?isU)StreamTitle='(.*)';`)
 	m := r.FindStringSubmatch(bass.ChannelGetTags(player.Channel, bass.BASS_TAG_META))
-	if len(m) > 0 {                                                       ")
+	if len(m) > 0 {
 		fmt.Printf("\r%s", m[1])
 	}
 	time.Sleep(time.Second * 3)

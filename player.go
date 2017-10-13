@@ -29,6 +29,9 @@ func NewPlayer(conf PlayerConf) (*Player, error) {
 	if conf.Volume == 0.0 {
 		conf.Volume = 25
 	}
+	if conf.Freq == 0 {
+		conf.Freq = 44100
+	}
 	if conf.Source == "" {
 		return nil, errors.New("Source is empty")
 	}
