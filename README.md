@@ -51,13 +51,14 @@ cfg.Source = "http://music.myradio.ua:8000/main_stream_rock_news128.mp3"
 player, err := bass.NewPlayer(cfg)
 if err != nil {
 	panic(err)
-} else {
-	fmt.Println(player.Play())
-	fmt.Println("Volume:", player.GetVol())
-	time.Sleep(time.Second * 1)
-	player.SetVol(55)
-	fmt.Println("Volume:", player.GetVol())
-}
+} 
+
+fmt.Println(player.Play())
+fmt.Println("Volume:", player.GetVol())
+time.Sleep(time.Second * 1)
+player.SetVol(55)
+fmt.Println("Volume:", player.GetVol())
+
 r := regexp.MustCompile(`(?isU)StreamTitle='(.*)';`)
 for {
 	m := r.FindStringSubmatch(bass.ChannelGetTags(player.Channel, bass.BASS_TAG_META))
