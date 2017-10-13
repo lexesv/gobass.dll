@@ -1,5 +1,6 @@
 # gobass.dll
-Go bindings for bass.dll (for minimum needs)
+Go bindings for [bass.dll] (http://www.un4seen.com/)
+*wrapped a few basic functions
 
 ### Install
 ```sh
