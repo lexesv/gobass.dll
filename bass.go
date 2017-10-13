@@ -95,7 +95,7 @@ func StreamCreateFile(file string) (int, error) {
 // ChannelPlay
 // BOOL BASSDEF(BASS_ChannelPlay)(DWORD handle, BOOL restart);
 func ChannelPlay(ch int) (bool, error) {
-	if C.BASS_ChannelPlay(C.DWORD(ch), 1) == 0 {
+	if C.BASS_ChannelPlay(C.DWORD(ch), 1) != 0 {
 		return true, nil
 	} else {
 		return false, errMsg(int(C.BASS_ErrorGetCode()))
@@ -105,7 +105,7 @@ func ChannelPlay(ch int) (bool, error) {
 // ChannelPause
 // BOOL BASSDEF(BASS_ChannelPause)(DWORD handle);
 func ChannelPause(ch int) (bool, error) {
-	if C.BASS_ChannelPause(C.DWORD(ch)) == 0 {
+	if C.BASS_ChannelPause(C.DWORD(ch)) != 0 {
 		return true, nil
 	} else {
 		return false, errMsg(int(C.BASS_ErrorGetCode()))
