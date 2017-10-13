@@ -63,7 +63,6 @@ r := regexp.MustCompile(`(?isU)StreamTitle='(.*)';`)
 for {
 	m := r.FindStringSubmatch(bass.ChannelGetTags(player.Channel, bass.BASS_TAG_META))
 	if len(m) > 0 {
-		fmt.Printf("\r%s", "                                                         ")
 		fmt.Printf("\r%s", m[1])
 	}
 	time.Sleep(time.Second * 3)
