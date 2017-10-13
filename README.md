@@ -1,5 +1,5 @@
 # gobass.dll
-Go bindings for [bass.dll] (http://www.un4seen.com/)
+Go bindings for [bass.dll](http://www.un4seen.com/)
 
 Note: wrapped a few basic functions
 
