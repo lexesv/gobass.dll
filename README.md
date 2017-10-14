@@ -41,7 +41,8 @@ cfg := bass.PlayerConf{
 	Freq:   44100,
 	Flags:  0,
 	Volume: 50.5,
-	Source: "http://online-hitfm.tavrmedia.ua/HitFM_Live",
+	Source: "http://online-hitfm.tavrmedia.ua/HitFM_Live", 
+	// or Source: "file.mp3",
 }
 
 // or
