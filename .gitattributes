@@ -1,3 +1,6 @@
 * text=auto
 *.go    text eol=lf
 *.go linguist-language=Go
+
+* linguist-vendored
+*.go linguist-vendored=false
