@@ -17,7 +17,8 @@ type PlayerConf struct {
 	Device int
 	Freq   int
 	Flags  int
-	Volume float32 //default 25%
+	Vol    float32 //default 55%
+	ChVol  float32 //default 75%
 	Source string
 }
 
@@ -26,8 +27,11 @@ func NewPlayer(conf PlayerConf) (*Player, error) {
 	if conf.Device == 0 {
 		conf.Device = -1
 	}
-	if conf.Volume == 0.0 {
-		conf.Volume = 25
+	if conf.Vol == 0.0 {
+		conf.Vol = 55
+	}
+	if conf.ChVol == 0.0 {
+		conf.ChVol = 75
 	}
 	if conf.Freq == 0 {
 		conf.Freq = 44100
@@ -61,8 +65,12 @@ func (p *Player) Play() (err error) {
 		}
 	}
 	p.Channel = ch
-	if _, err = ChannelSetVolume(p.Channel, p.Conf.Volume); err != nil {
+	if _, err = ChannelSetVolume(p.Channel, p.Conf.ChVol); err != nil {
 		log.Println(err)
+	}
+
+	if _, err = SetVol(p.Conf.Vol); err != nil {
+		return err
 	}
 
 	if _, err = ChannelPlay(p.Channel); err != nil {
@@ -87,16 +95,30 @@ func (p *Player) Stop() (err error) {
 	return nil
 }
 
+// Player.GetChVol
+func (p *Player) GetChVol() float32 {
+	return p.Conf.ChVol
+}
+
+// Player.SetChVol
+func (p *Player) SetChVol(v float32) (err error) {
+	if _, err = ChannelSetVolume(p.Channel, v); err != nil {
+		return err
+	}
+	p.Conf.ChVol = v
+	return nil
+}
+
 // Player.GetVol
 func (p *Player) GetVol() float32 {
-	return p.Conf.Volume
+	return p.Conf.Vol
 }
 
 // Player.SetVol
 func (p *Player) SetVol(v float32) (err error) {
-	if _, err = ChannelSetVolume(p.Channel, v); err != nil {
+	if _, err = SetVol(v); err != nil {
 		return err
 	}
-	p.Conf.Volume = v
+	p.Conf.Vol = v
 	return nil
 }
