@@ -122,3 +122,8 @@ func (p *Player) SetVol(v float32) (err error) {
 	p.Conf.Vol = v
 	return nil
 }
+
+// Player.Source
+func (p *Player) NewSource(src string) {
+	p.Conf.Source = src
+}

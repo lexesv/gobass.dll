@@ -122,6 +122,27 @@ func ChannelStop(ch int) (bool, error) {
 	}
 }
 
+// ChannelStatus
+// DWORD BASSDEF(BASS_ChannelIsActive)(DWORD handle);
+func ChannelStatus(ch int) (c uint, s string) {
+	c = uint(C.BASS_ChannelIsActive(C.DWORD(ch)))
+	switch c {
+	case 0:
+		s = "BASS_ACTIVE_STOPPED"
+		break
+	case 1:
+		s = "BASS_ACTIVE_PLAYING"
+		break
+	case 2:
+		s = "BASS_ACTIVE_STALLED"
+		break
+	case 3:
+		s = "BASS_ACTIVE_PAUSED"
+		break
+	}
+	return c, s
+}
+
 // ChannelGetAttribute
 // BOOL BASSDEF(BASS_ChannelGetAttribute)(DWORD handle, DWORD attrib, float *value);
 func ChannelGetAttribute(ch int, attrib int) (float32, error) {
