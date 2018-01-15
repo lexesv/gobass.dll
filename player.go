@@ -47,6 +47,13 @@ func NewPlayer(conf PlayerConf) (*Player, error) {
 
 }
 
+func (p *Player) Free() (err error) {
+	if _, err = Free(); err != nil {
+		return err
+	}
+	return nil
+}
+
 // Player.Play
 func (p *Player) Play() (err error) {
 	var ch int

@@ -28,6 +28,18 @@ func Init(device int, freq int, flags int) (bool, error) {
 }
 
 /*
+Free
+BOOL BASS_Free();
+ */
+func Free() (bool, error) {
+	if C.BASS_Free() != 0 {
+		return true, nil
+	} else {
+		return false, errMsg(int(C.BASS_ErrorGetCode()))
+	}
+}
+
+/*
 GetConfig
 DWORD BASSDEF(BASS_GetConfig)(DWORD option);
 */
