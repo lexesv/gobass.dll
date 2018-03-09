@@ -9,10 +9,10 @@ package bass
 import "C"
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 	"unsafe"
+	"errors"
 )
 
 /*
@@ -219,6 +219,49 @@ func PluginFree(handle int) (bool, error) {
 		return false, errMsg(int(C.BASS_ErrorGetCode()))
 	}
 }
+
+/* RECORD */
+/*
+RecordInit
+BOOL BASSDEF(BASS_RecordInit)(int device);
+*/
+func RecordInit(device int) (bool, error) {
+	if C.BASS_RecordInit(C.int(device)) != 0 {
+		return true, nil
+	} else {
+		return false, errMsg(int(C.BASS_ErrorGetCode()))
+	}
+}
+
+/*
+RecordFree
+BOOL BASSDEF(BASS_RecordFree)();
+ */
+func RecordFree() (bool, error) {
+	if C.BASS_RecordFree() != 0 {
+		return true, nil
+	} else {
+		return false, errMsg(int(C.BASS_ErrorGetCode()))
+	}
+}
+
+/*
+RecordStart
+HRECORD BASSDEF(BASS_RecordStart)(DWORD freq, DWORD chans, DWORD flags, RECORDPROC *proc, void *user);
+ */
+
+func RecordStart(freq int, chans int, flags int, proc RecordCallback) (int, error) {
+	h := C.BASS_RecordStart(C.DWORD(freq), C.DWORD(chans), C.DWORD(flags), (*C.RECORDPROC)(unsafe.Pointer(&proc)), nil)
+	//h := C.BASS_RecordStart(C.DWORD(freq), C.DWORD(chans), C.DWORD(flags), nil, nil)
+	if h != 0 {
+		return int(h), nil
+	} else {
+		return 0, errMsg(int(C.BASS_ErrorGetCode()))
+	}
+}
+
+//typedef BOOL (CALLBACK RECORDPROC)(HRECORD handle, const void *buffer, DWORD length, void *user);
+type RecordCallback = func(handle C.HRECORD, buffer *C.char, length C.DWORD, user *C.char) bool
 
 func errMsg(c int) error {
 	codes := make(map[int]string)
