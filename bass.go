@@ -1,4 +1,6 @@
 // bass project bass.go
+// http://www.un4seen.com/doc/#bass/
+
 package bass
 
 /*
@@ -84,6 +86,7 @@ func SetVol(v float32) (bool, error) {
 }
 
 // StreamCreateURL
+// HSTREAM BASSDEF(BASS_StreamCreateURL)(const char *url, DWORD offset, DWORD flags, DOWNLOADPROC *proc, void *user);
 func StreamCreateURL(url string) (int, error) {
 	ch := C.BASS_StreamCreateURL(C.CString(url), 0, C.BASS_STREAM_BLOCK|C.BASS_STREAM_STATUS|C.BASS_STREAM_AUTOFREE, nil, nil)
 	if ch != 0 {
@@ -182,8 +185,8 @@ func ChannelSetAttribute(ch int, attrib int, value float32) (bool, error) {
 
 //ChannelGetLevel
 //DWORD BASSDEF(BASS_ChannelGetLevel)(DWORD handle);
-func ChannelGetLevel(ch int) (c uint, e error) {
-	c = uint(C.BASS_ChannelGetLevel(C.DWORD(ch)))
+func ChannelGetLevel(ch int) (c int, e error) {
+	c = int(C.BASS_ChannelGetLevel(C.DWORD(ch)))
 	if c == -1 {
 		return 0, errMsg(int(C.BASS_ErrorGetCode()))
 	}
