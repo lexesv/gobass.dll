@@ -180,6 +180,16 @@ func ChannelSetAttribute(ch int, attrib int, value float32) (bool, error) {
 	}
 }
 
+//ChannelGetLevel
+//DWORD BASSDEF(BASS_ChannelGetLevel)(DWORD handle);
+func ChannelGetLevel(ch int) (c uint, e error) {
+	c = uint(C.BASS_ChannelGetLevel(C.DWORD(ch)))
+	if c == -1 {
+		return 0, errMsg(int(C.BASS_ErrorGetCode()))
+	}
+	return c, nil
+}
+
 // ChannelGetVolume
 // value: 0-100
 func ChannelGetVolume(ch int) (float32, error) {
