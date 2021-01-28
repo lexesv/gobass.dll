@@ -11,10 +11,10 @@ package bass
 import "C"
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"unsafe"
-	"errors"
 )
 
 /*
@@ -270,6 +270,14 @@ func RecordStart(freq int, chans int, flags int, proc RecordCallback) (int, erro
 	} else {
 		return 0, errMsg(int(C.BASS_ErrorGetCode()))
 	}
+}
+//ChannelGetInfo get channel info from the header 
+func ChannelGetInfo(ch int) (C.BASS_CHANNELINFO, ERROR){
+	var chInfo C.BASS_CHANNELINFO
+	if C.BASS_ChannelGetInfo(C.DWORD(ch), &chInfo) !=0 {
+		return chInfo, nil
+	}
+	return chInfo, errMsg(int(C.BASS_ErrorGetCode()))
 }
 
 //typedef BOOL (CALLBACK RECORDPROC)(HRECORD handle, const void *buffer, DWORD length, void *user);
